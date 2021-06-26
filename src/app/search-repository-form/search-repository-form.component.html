@@ -1,0 +1,16 @@
+<div class="content-body">
+  <div style="text-align:center">
+    <img width="500" alt="Mooven" src="../assets/images/Logo-Preferencial-1.svg">
+  </div>
+  <div style="text-align:center;margin-top: 25px;" [formGroup]="form">
+    <mat-icon>search</mat-icon>
+    <mat-form-field style="width: 500px;">
+      <input matInput [formControlName]="'search'" [type]="'text'">
+      <mat-option *ngFor="let item of searchItems" [value]="item">
+        <div style="display: inline-flex;" (click)="getOwnerRepository(item)">
+          {{ item.name }} - {{ item.git_url }}
+        </div>
+      </mat-option>
+    </mat-form-field>
+  </div>
+</div>

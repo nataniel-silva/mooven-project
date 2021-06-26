@@ -1,18 +1,38 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MaterialModule} from './material.module';
+import {SearchService} from './service/search.service';
+import {HttpClientModule} from '@angular/common/http';
+import {SearchRepositoryFormComponent} from './search-repository-form/search-repository-form.component';
+import {SearchOwnerRepositoryFormComponent} from './search-owner-repository-form/search-owner-repository-form.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule,
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    SearchRepositoryFormComponent,
+    SearchOwnerRepositoryFormComponent
+  ],
+  exports: [
+    SearchRepositoryFormComponent,
+    SearchOwnerRepositoryFormComponent
+  ],
+  providers: [
+    SearchService
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
