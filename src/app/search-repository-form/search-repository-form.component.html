@@ -8,7 +8,7 @@
       <input matInput [formControlName]="'search'" [type]="'text'">
       <mat-option *ngFor="let item of searchItems" [value]="item">
         <div style="display: inline-flex;" (click)="getOwnerRepository(item)">
-          {{ item.name }} - {{ item.git_url }}
+          {{ item.name }} - {{ item.html_url }}
         </div>
       </mat-option>
     </mat-form-field>

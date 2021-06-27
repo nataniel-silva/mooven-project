@@ -1,7 +1,8 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {Injectable, Injector} from '@angular/core';
 import {catchError, map} from "rxjs/operators";
+import {environment} from '../../environments/environment';
 
 @Injectable()
 @Injectable()
@@ -26,6 +27,17 @@ export class SearchService {
 
   searchOwnerRepository(username): Observable<any> {
     let href = this.baseApiUrl + '/users/' + username + '/repos';
+
+    return this.http.get<any>(href, {}).pipe(
+      catchError( (error) => throwError(error.error.error))
+    );
+  }
+
+  searchFavoriteRepository(): Observable<any> {
+    let href = environment.urlApi + '/favorite-repository/';
+    let headers = {
+      'Access-Control-Allow-Origin': '*'
+    }
 
     return this.http.get<any>(href, {}).pipe(
       catchError( (error) => throwError(error.error.error))

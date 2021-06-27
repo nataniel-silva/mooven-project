@@ -9,6 +9,7 @@ import {SearchService} from './service/search.service';
 import {HttpClientModule} from '@angular/common/http';
 import {SearchRepositoryFormComponent} from './search-repository-form/search-repository-form.component';
 import {SearchOwnerRepositoryFormComponent} from './search-owner-repository-form/search-owner-repository-form.component';
+import {FavoriteRepositoryFormComponent} from './favorite-repository-form/favorite-repository-form.component';
 
 @NgModule({
   imports: [
@@ -23,11 +24,13 @@ import {SearchOwnerRepositoryFormComponent} from './search-owner-repository-form
   declarations: [
     AppComponent,
     SearchRepositoryFormComponent,
-    SearchOwnerRepositoryFormComponent
+    SearchOwnerRepositoryFormComponent,
+    FavoriteRepositoryFormComponent
   ],
   exports: [
     SearchRepositoryFormComponent,
-    SearchOwnerRepositoryFormComponent
+    SearchOwnerRepositoryFormComponent,
+    FavoriteRepositoryFormComponent
   ],
   providers: [
     SearchService

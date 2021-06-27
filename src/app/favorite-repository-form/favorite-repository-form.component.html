@@ -5,23 +5,24 @@
 </div>
 <div class="content-body">
   <div>
-    <button mat-stroked-button color="primary" (click)="redirectToFavorite()">
-      Ver favoritos
-      <mat-icon>star</mat-icon>
-    </button>
     <button mat-stroked-button (click)="redirectToSearchRepository()">
       Nova pesquisa
       <mat-icon>search</mat-icon>
     </button>
   </div>
   <div>
-    <h1 mat-dialog-title>Repositórios do usuário: {{ repository }}</h1>
+    <h1 mat-dialog-title>Favoritos</h1>
   </div>
   <div mat-dialog-content>
-    <mat-nav-list>
+    <mat-nav-list *ngIf="searchItems && searchItems.length > 0">
       <mat-list-item *ngFor="let item of searchItems" style="cursor:default !important;">
         <h4 matLine>{{ item.name }}</h4>
         <a matLine href="{{item.html_url}}" target="_blank" style="cursor:pointer !important;">{{ item.html_url }}</a>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-nav-list *ngIf="!searchItems">
+      <mat-list-item style="cursor:default !important;">
+        <span>Não existe nenum favorito</span>
       </mat-list-item>
     </mat-nav-list>
   </div>
