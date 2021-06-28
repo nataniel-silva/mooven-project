@@ -1,6 +1,8 @@
-import {Component, Injector,  OnInit} from '@angular/core';
-import {SearchService} from '../service/search.service';
+import {Component, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FavoriteService} from '../service/favorite.service';
+import {map} from "rxjs/operators";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'favorite-repository-form',
@@ -12,9 +14,10 @@ export class FavoriteRepositoryFormComponent implements OnInit {
   repository: any;
   searchItems: any;
 
-  constructor(public searchService: SearchService,
+  constructor(public favoriteService: FavoriteService,
               public route: ActivatedRoute,
               private _router: Router,
+              private _location: Location,
               injector: Injector) {
     this.route.queryParams.subscribe((data) => {
       this.repository = data.owner;
@@ -22,10 +25,12 @@ export class FavoriteRepositoryFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.searchFavoriteRepository().subscribe(
+    this.favoriteService.searchFavoriteRepository().pipe(
+      map((data) => data.data)
+    ).subscribe(
       (data) => {
-        if (data && data) {
-          this.searchItems = data;
+        if (data) {
+          this.searchItems = data.records;
         }
       },
       (error) => {
@@ -36,6 +41,10 @@ export class FavoriteRepositoryFormComponent implements OnInit {
 
   redirectToSearchRepository() {
     this._router.navigate(['/repository'], {});
+  }
+
+  redirectToBack() {
+    this._location.back();
   }
 
 }

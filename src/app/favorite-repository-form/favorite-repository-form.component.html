@@ -5,6 +5,10 @@
 </div>
 <div class="content-body">
   <div>
+    <button mat-stroked-button (click)="redirectToBack()">
+      Voltar
+      <mat-icon>assignment_return</mat-icon>
+    </button>
     <button mat-stroked-button (click)="redirectToSearchRepository()">
       Nova pesquisa
       <mat-icon>search</mat-icon>
@@ -17,12 +21,12 @@
     <mat-nav-list *ngIf="searchItems && searchItems.length > 0">
       <mat-list-item *ngFor="let item of searchItems" style="cursor:default !important;">
         <h4 matLine>{{ item.name }}</h4>
-        <a matLine href="{{item.html_url}}" target="_blank" style="cursor:pointer !important;">{{ item.html_url }}</a>
+        <a matLine href="{{item.htmlUrl}}" target="_blank" style="cursor:pointer !important;">{{ item.htmlUrl }}</a>
       </mat-list-item>
     </mat-nav-list>
-    <mat-nav-list *ngIf="!searchItems">
+    <mat-nav-list *ngIf="!searchItems || searchItems.length == 0">
       <mat-list-item style="cursor:default !important;">
-        <span>Não existe nenum favorito</span>
+        <span>Não existe nenhum favorito</span>
       </mat-list-item>
     </mat-nav-list>
   </div>

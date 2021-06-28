@@ -1,6 +1,8 @@
 import {Component, Injector, OnInit} from '@angular/core';
-import {SearchService} from '../service/search.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {map} from "rxjs/operators";
+import {RepositoryService} from '../service/repository.service';
+import {FavoriteService} from "../service/favorite.service";
 
 @Component({
   selector: 'search-owner-repository-form',
@@ -11,8 +13,10 @@ export class SearchOwnerRepositoryFormComponent implements OnInit {
 
   repository: any;
   searchItems: any;
+  favoritesItems: any
 
-  constructor(public searchService: SearchService,
+  constructor(public repositoryService: RepositoryService,
+              public favoriteService: FavoriteService,
               public route: ActivatedRoute,
               private _router: Router,
               injector: Injector) {
@@ -22,10 +26,15 @@ export class SearchOwnerRepositoryFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.searchOwnerRepository(this.repository).subscribe(
+    this.favoritesItems = [];
+    this.listFavorite();
+    this.searchRepositories();
+  }
+
+  searchRepositories() {
+    this.repositoryService.searchOwnerRepository(this.repository).subscribe(
       (data) => {
-        console.log(data);
-        if (data && data) {
+        if (data) {
           this.searchItems = data;
         }
       },
@@ -33,6 +42,39 @@ export class SearchOwnerRepositoryFormComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  favoriteItem(item: any, remove: boolean = false) {
+    this.favoriteService.saveFavoriteRepository(item, remove).subscribe(
+      (data) => {
+        if (data) {
+          this.favoritesItems.push(data);
+          this.ngOnInit();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  listFavorite() {
+    this.favoriteService.searchFavoriteRepository().pipe(
+      map((data) => data.data)
+    ).subscribe(
+      (data) => {
+        if (data) {
+          this.favoritesItems = data.records;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  isFavorite(item: any): boolean {
+    return this.favoritesItems && this.favoritesItems.filter( i => i.owner == item.owner.login && i.name == item.name && i.active == true).length > 0;
   }
 
   redirectToSearchRepository() {

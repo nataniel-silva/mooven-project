@@ -1,7 +1,7 @@
 import {Component, Injector, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {SearchService} from '../service/search.service';
 import {Router} from '@angular/router';
+import {RepositoryService} from '../service/repository.service';
 
 @Component({
   selector: 'search-repository-form',
@@ -14,7 +14,7 @@ export class SearchRepositoryFormComponent implements OnInit {
   protected formBuilder: FormBuilder;
   searchItems: any;
 
-  constructor(public searchService: SearchService,
+  constructor(public repositoryService: RepositoryService,
               private _router: Router,
               injector: Injector) {
     this.formBuilder = injector.get(FormBuilder);
@@ -29,7 +29,7 @@ export class SearchRepositoryFormComponent implements OnInit {
     this.form.get('search').valueChanges.subscribe(
       (value) => {
         if (value && value.length > 2) {
-          this.searchService.searchRepository(value).subscribe(
+          this.repositoryService.searchRepository(value).subscribe(
             (data) => {
               if (data && data.items) {
                 this.searchItems = data.items;
@@ -38,18 +38,18 @@ export class SearchRepositoryFormComponent implements OnInit {
             (error) => {
               console.log(error);
             }
-          )
+          );
         } else {
           this.searchItems = [];
         }
       }
-    )
+    );
   }
 
   getOwnerRepository(repository: any) {
     const owner = repository.owner.login;
     this._router.navigate(['/owner-repository'], {
-      queryParams: { owner: owner },
+      queryParams: {owner: owner},
     });
   }
 
